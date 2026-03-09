@@ -16,6 +16,100 @@ displayIssues(allIssues)
 
 }
 
+// function displayIssues(issues){
+
+// container.innerHTML=""
+
+// issues.forEach(issue=>{
+
+// const border =
+// issue.status==="open"
+// ? "border-green-500"
+// : "border-purple-500"
+
+// const priorityColor =
+// issue.priority==="high"
+// ? "bg-green-100 text-green-600"
+// : issue.priority==="medium"
+// ? "bg-green-100 text-green-600"
+// : "bg-gray-200 text-gray-500"
+
+// const statusColor =
+// issue.status === "open"
+// ? "bg-green-500"
+// : "bg-purple-500"
+
+// const labels = issue.labels || []
+
+// const labelHTML = labels.map(label=>{
+
+// let color="bg-gray-100 text-gray-600"
+
+// if(label==="bug"){
+// color="bg-red-100 text-red-500"
+// }
+
+// if(label==="help wanted"){
+// color="bg-orange-100 text-orange-500"
+// }
+
+// if(label==="enhancement"){
+// color="bg-green-100 text-green-600"
+// }
+
+// return `<span class="text-[10px] px-2 py-1 rounded-full ${color}">
+// ${label.toUpperCase()}
+// </span>`
+
+// }).join("")
+
+// const card = `
+// <div onclick="loadSingleIssue(${issue.id})"
+// class="bg-white border rounded-xl p-4 border-t-4 ${border} shadow-sm hover:shadow-md transition cursor-pointer flex flex-col gap-3">
+
+// <div class="flex justify-between items-center">
+
+// <div class="flex items-center gap-2">
+
+// <div class="w-2.5 h-2.5 rounded-full ${statusColor}"></div>
+
+// <span class="text-xs px-2 py-1 rounded-full font-semibold ${priorityColor}">
+// ${issue.priority.toUpperCase()}
+// </span>
+
+// </div>
+
+// </div>
+
+// <h3 class="font-semibold text-gray-800 text-sm">
+// ${issue.title}
+// </h3>
+
+// <p class="text-xs text-gray-500">
+// ${issue.description}
+// </p>
+
+// <div class="flex gap-2 flex-wrap">
+// ${labelHTML}
+// </div>
+
+// <div class="text-[11px] text-gray-400">
+// #${issue.id} by ${issue.author}
+// </div>
+
+// <div class="text-[11px] text-gray-400">
+// ${issue.createdAt}
+// </div>
+
+// </div>
+// `
+
+// container.innerHTML+=card
+
+// })
+
+// }
+
 function displayIssues(issues){
 
 container.innerHTML=""
@@ -31,13 +125,17 @@ const priorityColor =
 issue.priority==="high"
 ? "bg-green-100 text-green-600"
 : issue.priority==="medium"
-? "bg-green-100 text-green-600"
+? "bg-yellow-100 text-orange-600"
 : "bg-gray-200 text-gray-500"
 
-const statusColor =
+// status icon image
+const statusIcon =
 issue.status === "open"
-? "bg-green-500"
-: "bg-purple-500"
+? "assets/Open-Status.png"
+: "assets/Closed- Status .png"
+
+// only date (remove time)
+const dateOnly = issue.createdAt.split("T")[0]
 
 const labels = issue.labels || []
 
@@ -68,16 +166,15 @@ const card = `
 class="bg-white border rounded-xl p-4 border-t-4 ${border} shadow-sm hover:shadow-md transition cursor-pointer flex flex-col gap-3">
 
 <div class="flex justify-between items-center">
-
+<img src="${statusIcon}" class="w-5 h-5">
 <div class="flex items-center gap-2">
-
-<div class="w-2.5 h-2.5 rounded-full ${statusColor}"></div>
-
 <span class="text-xs px-2 py-1 rounded-full font-semibold ${priorityColor}">
 ${issue.priority.toUpperCase()}
 </span>
 
 </div>
+
+
 
 </div>
 
@@ -98,7 +195,7 @@ ${labelHTML}
 </div>
 
 <div class="text-[11px] text-gray-400">
-${issue.createdAt}
+${dateOnly}
 </div>
 
 </div>
@@ -170,7 +267,99 @@ btn.classList.add("bg-purple-600","text-white")
 
 }
 
+async function loadSingleIssue(id){
 
+const res=await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`)
+const data=await res.json()
+
+const issue=data.data
+
+const labels = issue.labels || [];
+
+const labelHTML = labels.map(label => {
+
+let color = "bg-gray-100 text-gray-600";
+
+if(label === "bug"){
+color = "bg-red-100 text-red-500";
+}
+
+if(label === "help wanted"){
+color = "bg-orange-100 text-orange-500";
+}
+
+if(label === "enhancement"){
+color = "bg-green-100 text-green-600";
+}
+
+return `
+<span class="text-xs px-2 py-1 rounded-full ${color}">
+${label.toUpperCase()}
+</span>
+`;
+
+}).join("");
+
+const modal=document.getElementById("modal")
+
+const statusColor =
+issue.status === "open"
+? "bg-green-100 text-green-600"
+: "bg-purple-100 text-purple-600"
+
+modal.innerHTML = `
+
+<div class="bg-white p-6 rounded-xl w-[420px]">
+
+<h2 class="text-xl font-bold mb-2">
+${issue.title}
+</h2>
+
+<div class="flex items-center gap-2 mb-3">
+
+<span class="px-2 py-1 text-xs rounded ${statusColor}">
+${issue.status}
+</span>
+
+<span class="text-sm text-gray-500">
+Opened by ${issue.author} · ${issue.createdAt}
+</span>
+
+</div>
+
+<p class="text-gray-600 mb-4">
+${issue.description}
+</p>
+<div class="flex gap-2 mb-3">
+${labelHTML}
+</div>
+<div class="flex justify-between bg-gray-50 p-3 rounded">
+
+<div>
+<p class="text-xs text-gray-500">Assignee:</p>
+<p class="font-medium">${issue.author}</p>
+</div>
+
+<div>
+<p class="text-xs text-gray-500">Priority:</p>
+<span class="text-xs px-2 py-1 rounded bg-red-100 text-red-500">
+${issue.priority}
+</span>
+</div>
+
+</div>
+
+<button onclick="closeModal()"
+class="mt-4 bg-purple-600 text-white px-4 py-2 rounded">
+Close
+</button>
+
+</div>
+`
+
+modal.classList.remove("hidden")
+
+}
 
 function closeModal(){
 
