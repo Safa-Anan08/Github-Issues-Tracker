@@ -16,100 +16,6 @@ displayIssues(allIssues)
 
 }
 
-// function displayIssues(issues){
-
-// container.innerHTML=""
-
-// issues.forEach(issue=>{
-
-// const border =
-// issue.status==="open"
-// ? "border-green-500"
-// : "border-purple-500"
-
-// const priorityColor =
-// issue.priority==="high"
-// ? "bg-green-100 text-green-600"
-// : issue.priority==="medium"
-// ? "bg-green-100 text-green-600"
-// : "bg-gray-200 text-gray-500"
-
-// const statusColor =
-// issue.status === "open"
-// ? "bg-green-500"
-// : "bg-purple-500"
-
-// const labels = issue.labels || []
-
-// const labelHTML = labels.map(label=>{
-
-// let color="bg-gray-100 text-gray-600"
-
-// if(label==="bug"){
-// color="bg-red-100 text-red-500"
-// }
-
-// if(label==="help wanted"){
-// color="bg-orange-100 text-orange-500"
-// }
-
-// if(label==="enhancement"){
-// color="bg-green-100 text-green-600"
-// }
-
-// return `<span class="text-[10px] px-2 py-1 rounded-full ${color}">
-// ${label.toUpperCase()}
-// </span>`
-
-// }).join("")
-
-// const card = `
-// <div onclick="loadSingleIssue(${issue.id})"
-// class="bg-white border rounded-xl p-4 border-t-4 ${border} shadow-sm hover:shadow-md transition cursor-pointer flex flex-col gap-3">
-
-// <div class="flex justify-between items-center">
-
-// <div class="flex items-center gap-2">
-
-// <div class="w-2.5 h-2.5 rounded-full ${statusColor}"></div>
-
-// <span class="text-xs px-2 py-1 rounded-full font-semibold ${priorityColor}">
-// ${issue.priority.toUpperCase()}
-// </span>
-
-// </div>
-
-// </div>
-
-// <h3 class="font-semibold text-gray-800 text-sm">
-// ${issue.title}
-// </h3>
-
-// <p class="text-xs text-gray-500">
-// ${issue.description}
-// </p>
-
-// <div class="flex gap-2 flex-wrap">
-// ${labelHTML}
-// </div>
-
-// <div class="text-[11px] text-gray-400">
-// #${issue.id} by ${issue.author}
-// </div>
-
-// <div class="text-[11px] text-gray-400">
-// ${issue.createdAt}
-// </div>
-
-// </div>
-// `
-
-// container.innerHTML+=card
-
-// })
-
-// }
-
 function displayIssues(issues){
 
 container.innerHTML=""
@@ -128,13 +34,12 @@ issue.priority==="high"
 ? "bg-yellow-100 text-orange-600"
 : "bg-gray-200 text-gray-500"
 
-// status icon image
+// open close image of card
 const statusIcon =
 issue.status === "open"
 ? "assets/Open-Status.png"
 : "assets/Closed- Status .png"
 
-// only date (remove time)
 const dateOnly = issue.createdAt.split("T")[0]
 
 const labels = issue.labels || []
@@ -173,8 +78,6 @@ ${issue.priority.toUpperCase()}
 </span>
 
 </div>
-
-
 
 </div>
 
@@ -307,6 +210,7 @@ issue.status === "open"
 ? "bg-green-100 text-green-600"
 : "bg-purple-100 text-purple-600"
 
+const dateOnly = issue.createdAt.split("T")[0]
 modal.innerHTML = `
 
 <div class="bg-white p-6 rounded-xl w-[420px]">
@@ -320,9 +224,8 @@ ${issue.title}
 <span class="px-2 py-1 text-xs rounded ${statusColor}">
 ${issue.status}
 </span>
-
 <span class="text-sm text-gray-500">
-Opened by ${issue.author} · ${issue.createdAt}
+Opened by ${issue.author} · ${dateOnly}
 </span>
 
 </div>
