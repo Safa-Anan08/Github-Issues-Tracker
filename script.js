@@ -207,8 +207,8 @@ const modal=document.getElementById("modal")
 
 const statusColor =
 issue.status === "open"
-? "bg-green-100 text-green-600"
-: "bg-purple-100 text-purple-600"
+? "bg-green-700 text-white"
+: "bg-purple-700 text-white"
 
 const dateOnly = issue.createdAt.split("T")[0]
 modal.innerHTML = `
@@ -222,7 +222,7 @@ ${issue.title}
 <div class="flex items-center gap-2 mb-3">
 
 <span class="px-2 py-1 text-xs rounded ${statusColor}">
-${issue.status}
+${issue.status.toUpperCase()}
 </span>
 <span class="text-sm text-gray-500">
 Opened by ${issue.author} · ${dateOnly}
@@ -236,7 +236,7 @@ ${issue.description}
 <div class="flex gap-2 mb-3">
 ${labelHTML}
 </div>
-<div class="flex justify-between bg-gray-50 p-3 rounded">
+<div class="flex justify-between bg-gray-50 p-3 rounded-full">
 
 <div>
 <p class="text-xs text-gray-500">Assignee:</p>
@@ -245,15 +245,15 @@ ${labelHTML}
 
 <div>
 <p class="text-xs text-gray-500">Priority:</p>
-<span class="text-xs px-2 py-1 rounded bg-red-100 text-red-500">
-${issue.priority}
+<span class="text-xs px-2 py-1 rounded-full bg-red-700 text-white">
+${issue.priority.toUpperCase()}
 </span>
 </div>
 
 </div>
 
 <button onclick="closeModal()"
-class="mt-4 bg-purple-600 text-white px-4 py-2 rounded">
+class="mt-4 bg-blue-900 text-white px-4 py-2 rounded">
 Close
 </button>
 
