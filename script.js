@@ -213,7 +213,7 @@ issue.status === "open"
 const dateOnly = issue.createdAt.split("T")[0]
 modal.innerHTML = `
 
-<div class="bg-white p-6 rounded-xl w-[420px]">
+<div class="bg-white p-6 rounded-xl w-full max-w-md">
 
 <h2 class="text-xl font-bold mb-2">
 ${issue.title}
@@ -275,7 +275,7 @@ function showSpinner(){
 
 container.innerHTML=`
 
-<div class="col-span-4 flex justify-center py-10">
+<div class="col-span-full flex justify-center py-10">
 
 <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600"></div>
 
